@@ -116,8 +116,14 @@ function updateOpponentHp(newHP) {
 function playerAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update opponents health and return true
+  if (Math.random() > 0.3){
+    updateOpponentHp(opponentHp - 70)
+    return 1
+  }
+  else{
+    return 0
+  } 
 }
-
 
 // *************************************************************************************
 // Here you need to implement the opponent attack function that receives the used attack
@@ -128,8 +134,14 @@ function playerAttack(attack) {
 // opponent attack function that receives the used attack
 function opponentAttack(attack) {
   // 0: return false if attack misses
-  
   // 1: otherwise update player health and return true
+  if (Math.random() > 0.3){
+    updatePlayerHp(playerHp - 70)
+    return 1
+  }
+  else{
+    return 0
+  } 
 }
 
 function chooseOpponentAttack () {
