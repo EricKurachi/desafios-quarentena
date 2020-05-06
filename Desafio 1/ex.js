@@ -116,12 +116,12 @@ function updateOpponentHp(newHP) {
 function playerAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update opponents health and return true
-  if (Math.random() > 0.3){
-    updateOpponentHp(opponentHp - 70)
-    return 1
+  if (Math.random() * 100 < attack.accuracy){
+    updateOpponentHp(opponentHp - attack.power);
+    return 1;
   }
   else{
-    return 0
+    return 0;
   } 
 }
 
@@ -135,12 +135,12 @@ function playerAttack(attack) {
 function opponentAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update player health and return true
-  if (Math.random() > 0.3){
-    updatePlayerHp(playerHp - 70)
-    return 1
+  if (Math.random() * 100 < attack.accuracy){
+    updatePlayerHp(playerHp - attack.power);
+    return 1;
   }
   else{
-    return 0
+    return 0;
   } 
 }
 
