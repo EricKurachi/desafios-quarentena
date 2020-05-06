@@ -37,37 +37,64 @@ button {
   flex-direction: column;
   max-width: 600px;
   width: 100%;
-  background-color: var(--very-light-green);
+  background: url("assets/background.png");
+  background-size: 100% 100%;
   border: 5px solid var(--black);
   border-radius: 10px;
-  padding-top: 25px;
+  padding-top: 70px;
   padding-bottom: 25px;
 }
 
-.grass {
-  width: 100%;
-  height: 50px;
-  background-color: var(--grass-green);
-  border: 2px solid var(--green);
-  border-radius: 100%;
-  position: relative;
-  top: -25px;
+#characters { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#squirtle {
-  width: 100px;
-  padding: 0 20px;
-  align-self: flex-end;
+#artoria {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
+  width: 100px;
+  padding: 0 100px;
+ }
+ 
+ #artoria img {
+   transform: scaleX(-1);
+   position: relative;
+   z-index: 1;
+   width: 150%;
+   height: auto;
+ }
+ 
+ #player-health-bar {
+   width: 100%;
+   height: 10px;
+   background-color: var(--red);
+   border: 3px solid var(--black);
+   margin: 5px;
+ }
+ 
+ #player-health {
+   width: inherit;
+   height: inherit;
+   background-color: var(--green);
+   transition: 1000ms;
+ }
+
+#gilgamesh {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  padding: 0 100px;
 }
 
-#squirtle img {
+#gilgamesh img {
   position: relative;
-  left: 10px;
   z-index: 1;
+  width: 150%;
+  height: auto;
 }
 
 #opponent-health-bar {
@@ -80,32 +107,6 @@ button {
 
 #opponent-health {
   width: inherit;
-  height: 100%;
-  background-color: var(--green);
-  transition: 1000ms;
-}
-
-
-#pikachu {
- width: 100px;
- padding: 0 20px;
-}
-
-#pikachu img {
-  position: relative;
-  z-index: 1;
-}
-
-#player-health-bar {
-  width: 100%;
-  height: 10px;
-  background-color: var(--red);
-  border: 3px solid var(--black);
-  margin: 5px;
-}
-
-#player-health {
-  width: inherit;
   height: inherit;
   background-color: var(--green);
   transition: 1000ms;
@@ -114,11 +115,12 @@ button {
 #text {
   text-align: center;
   font-size: 30px;
+  color: var(--white);
   margin: 0;
 }
 
 #options {
-  background-color: var(--orange);
+  background-color: var(--red);
   margin: 16px 0;
   padding: 16px 25px;
 }

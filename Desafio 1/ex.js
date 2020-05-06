@@ -1,65 +1,65 @@
 const playerHpElement = document.getElementById('player-health');
-const playerTotalHp = 274;
-let playerHp = 274;
+const playerTotalHp = 15150*10;
+let playerHp = 15150*10;
 
 const opponentHpElement = document.getElementById('opponent-health');
-const opponentTotalHp = 292;
-let opponentHp = 292;
+const opponentTotalHp = 13097*10;
+let opponentHp = 13097*10;
 
 const turnText = document.getElementById('text');
 let isTurnHappening = false;
 
 const playerAttacks = {
-  thunderShock: {
-    power: 40,
+  quick: {
+    power: 11221*0.8,
     accuracy: 100,
-    name: 'Thunder Shock',
-    type: 'electric',
-  },
-  quickAttack: {
-    power: 40,
-    accuracy: 100,
-    name: 'Quick Attack',
+    name: 'Quick',
     type: 'normal',
   },
-  thunder: {
-    power: 110,
-    accuracy: 70,
-    name: 'Thunder',
-    type: 'electric',
+  arts: {
+    power: 11221,
+    accuracy: 90,
+    name: 'Arts',
+    type: 'normal',
   },
-  submission: {
-    power: 80,
-    accuracy: 80,
-    name: 'Submission',
-    type: 'fighting',
+  buster: {
+    power: 11221*1.5,
+    accuracy: 70,
+    name: 'Buster',
+    type: 'normal',
+  },
+  np: {
+    power: 11221*2,
+    accuracy: 100,
+    name: 'Excalibur',
+    type: 'divine',
   }
 }
 
 const opponentAttacks = {
-  tackle: {
-    power: 40,
+  quick: {
+    power: 12280 * 0.8,
     accuracy: 100,
-    name: 'Tackle',
+    name: 'Quick',
     type: 'normal',
   },
-  bubble: {
-    power: 40,
-    accuracy: 100,
-    name: 'Bubble',
-    type: 'water',
+  arts: {
+    power: 12280,
+    accuracy: 90,
+    name: 'Arts',
+    type: 'normal',
   },
-  waterGun: {
-    power: 40,
-    accuracy: 100,
-    name: 'Water Gun',
-    type: 'water',
+  buster: {
+    power: 12280*1.5,
+    accuracy: 70,
+    name: 'Buster',
+    type: 'normal',
   },
-  hydroPump: {
-    power: 110,
-    accuracy: 80,
-    name: 'Hydro Pump',
-    type: 'water',
+  np: {
+    power: 12280*2,
+    accuracy: 100,
+    name: 'Enûma Eliš',
+    type: 'magic',
   }
 }
 
@@ -120,9 +120,7 @@ function playerAttack(attack) {
     updateOpponentHp(opponentHp - attack.power);
     return 1;
   }
-  else{
-    return 0;
-  } 
+  return 0;
 }
 
 // *************************************************************************************
@@ -139,9 +137,7 @@ function opponentAttack(attack) {
     updatePlayerHp(playerHp - attack.power);
     return 1;
   }
-  else{
-    return 0;
-  } 
+  return 0;
 }
 
 function chooseOpponentAttack () {
@@ -194,15 +190,15 @@ function turn(playerChosenAttack) {
 }
 
 // Set buttons click interaction
-document.getElementById('thunder-shock-button').addEventListener('click', function() {
-  turn(playerAttacks.thunderShock);
+document.getElementById('quick-button').addEventListener('click', function() {
+  turn(playerAttacks.quick);
 });
-document.getElementById('quick-attack-button').addEventListener('click', function() {
-  turn(playerAttacks.quickAttack);
+document.getElementById('arts-button').addEventListener('click', function() {
+  turn(playerAttacks.arts);
 });
-document.getElementById('thunder-button').addEventListener('click', function() {
-  turn(playerAttacks.thunder);
+document.getElementById('buster-button').addEventListener('click', function() {
+  turn(playerAttacks.buster);
 });
-document.getElementById('submission-button').addEventListener('click', function() {
-  turn(playerAttacks.submission);
+document.getElementById('np-button').addEventListener('click', function() {
+  turn(playerAttacks.np);
 });
