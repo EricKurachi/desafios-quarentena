@@ -9,6 +9,8 @@ let opponentHp = 13097*10;
 const turnText = document.getElementById('text');
 let isTurnHappening = false;
 
+let paralyseEffectTime = 0;
+
 const playerAttacks = {
   quick: {
     power: 11221*0.8,
@@ -118,6 +120,9 @@ function playerAttack(attack) {
   // 1: otherwise update opponents health and return true
   if (Math.random() * 100 < attack.accuracy){
     updateOpponentHp(opponentHp - attack.power);
+    if (attack.name == 'Excalibur'){
+      paralyseEffectTime = 2;
+    }
     return 1;
   }
   return 0;
@@ -133,7 +138,7 @@ function playerAttack(attack) {
 function opponentAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update player health and return true
-  if (Math.random() * 100 < attack.accuracy){
+  if (Math.random() * 100 < attack.accuracy && paralyseEffectTime == 0){
     updatePlayerHp(playerHp - attack.power);
     return 1;
   }
@@ -192,6 +197,11 @@ function turn(playerChosenAttack) {
 
     if (didOpponentCrit) {
       turnText.innerText += ', its super effective!';
+    }
+
+    if (paralyseEffectTime != 0){
+      turnText.innerText = 'The opponent is paralysed';
+      paralyseEffectTime -= 1;
     }
 
     // Wait 2000ms to end the turn (Opponent attack animation time)
