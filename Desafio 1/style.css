@@ -45,6 +45,14 @@ button {
   padding-bottom: 25px;
 }
 
+#round {
+  text-align: center;
+  font-size: 30px;
+  transform: translate(0, -40px);
+  color: var(black);
+  margin: 0;
+}
+
 #characters { 
   display: flex;
   flex-direction: row;

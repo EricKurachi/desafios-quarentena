@@ -1,15 +1,19 @@
 const playerHpElement = document.getElementById('player-health');
 const playerTotalHp = 15150*10;
-let playerHp = 15150*10;
+let playerHp = playerTotalHp;
 
 const opponentHpElement = document.getElementById('opponent-health');
 const opponentTotalHp = 13097*10;
-let opponentHp = 13097*10;
+let opponentHp = opponentTotalHp;
 
 const turnText = document.getElementById('text');
 let isTurnHappening = false;
 
-let paralyseEffectTime = 0;
+let paralyzeEffectTime = 0;
+
+const roundText = document.getElementById('round');
+let score = 0;
+let round = 1;
 
 const playerAttacks = {
   quick: {
@@ -82,13 +86,38 @@ function willAttackMiss (accuracy) {
   return Math.floor(Math.random() * 100) > accuracy;
 }
 
+function roundOver(winner){
+  paralyzeEffectTime = 0;
+  
+  if (winner == 'Opponent'){
+    score -= 1;
+    if (score == -2) {
+      gameOver(winner);
+    }
+  }
+
+  if (winner == 'Player'){
+    score += 1;
+    if (score == 2) {
+      gameOver(winner);
+    }
+  }
+  updatePlayerHp(playerTotalHp);
+  updateOpponentHp(opponentTotalHp);
+
+  round += 1;
+  roundText.innerText = "Round " + round;
+  document.getElementById("artoriaImg").src = "assets/artoria" + round + ".webp";
+  document.getElementById("gilgameshImg").src = "assets/gilgamesh" + round + ".webp";
+}
+
 function updatePlayerHp(newHP) {
   // Prevents the HP to go lower than 0
   playerHp = Math.max(newHP, 0);
 
   // If player health is equal 0 opponent wins
   if (playerHp === 0) {
-    gameOver('Opponent');
+    roundOver('Opponent');
   }
 
   // Update the player hp bar
@@ -102,7 +131,7 @@ function updateOpponentHp(newHP) {
 
   // If oppont health is equal 0 player wins
   if (opponentHp === 0) {
-    gameOver('Player');
+    roundOver('Player');
   }
 
   // Update the opponents hp bar
@@ -121,7 +150,7 @@ function playerAttack(attack) {
   if (Math.random() * 100 < attack.accuracy){
     updateOpponentHp(opponentHp - attack.power);
     if (attack.name == 'Excalibur'){
-      paralyseEffectTime = 2;
+      paralyzeEffectTime = 2;
     }
     return 1;
   }
@@ -138,7 +167,7 @@ function playerAttack(attack) {
 function opponentAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update player health and return true
-  if (Math.random() * 100 < attack.accuracy && paralyseEffectTime == 0){
+  if (Math.random() * 100 < attack.accuracy && paralyzeEffectTime == 0){
     updatePlayerHp(playerHp - attack.power);
     return 1;
   }
@@ -146,7 +175,7 @@ function opponentAttack(attack) {
 }
 
 function opponentAttackType(attack) {
-  if (attack.type == 'divine'){
+  if (attack.type == 'divine' && paralyzeEffectTime == 0){
     updatePlayerHp(playerHp - attack.power);
     return 1;
   }
@@ -199,9 +228,9 @@ function turn(playerChosenAttack) {
       turnText.innerText += ', its super effective!';
     }
 
-    if (paralyseEffectTime != 0){
-      turnText.innerText = 'The opponent is paralysed';
-      paralyseEffectTime -= 1;
+    if (paralyzeEffectTime != 0){
+      turnText.innerText = 'The opponent is paralyzed';
+      paralyzeEffectTime -= 1;
     }
 
     // Wait 2000ms to end the turn (Opponent attack animation time)
