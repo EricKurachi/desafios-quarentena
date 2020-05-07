@@ -32,7 +32,7 @@ const playerAttacks = {
     power: 11221*2,
     accuracy: 100,
     name: 'Excalibur',
-    type: 'divine',
+    type: 'dragon',
   }
 }
 
@@ -59,7 +59,7 @@ const opponentAttacks = {
     power: 12280*2,
     accuracy: 100,
     name: 'Enûma Eliš',
-    type: 'magic',
+    type: 'divine',
   }
 }
 
@@ -140,6 +140,14 @@ function opponentAttack(attack) {
   return 0;
 }
 
+function opponentAttackType(attack) {
+  if (attack.type == 'divine'){
+    updatePlayerHp(playerHp - attack.power);
+    return 1;
+  }
+  return 0;
+}
+
 function chooseOpponentAttack () {
   // Put all opponents attacks in a array
   const possibleAttacks = Object.values(opponentAttacks);
@@ -172,12 +180,18 @@ function turn(playerChosenAttack) {
 
     const didOpponentHit = opponentAttack(opponentChosenAttack);
 
+    const didOpponentCrit = opponentAttackType(opponentChosenAttack);
+
     // Update HTML text with the used attack
     turnText.innerText = 'Opponent used ' + opponentChosenAttack.name;
 
     // Update HTML text in case the attack misses
     if (!didOpponentHit) {
       turnText.innerText += ', but missed!';
+    }
+
+    if (didOpponentCrit) {
+      turnText.innerText += ', its super effective!';
     }
 
     // Wait 2000ms to end the turn (Opponent attack animation time)
