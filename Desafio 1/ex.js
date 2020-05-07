@@ -1,19 +1,77 @@
 const playerHpElement = document.getElementById('player-health');
-const playerTotalHp = 15150*10;
-let playerHp = playerTotalHp;
-
 const opponentHpElement = document.getElementById('opponent-health');
-const opponentTotalHp = 13097*10;
-let opponentHp = opponentTotalHp;
 
 const turnText = document.getElementById('text');
 let isTurnHappening = false;
 
+const roundText = document.getElementById('round');
+let playerScore = 0;
+let opponentScore = 0;
+let round = 1;
+
 let paralyzeEffectTime = 0;
 
-const roundText = document.getElementById('round');
-let score = 0;
-let round = 1;
+class Servant {
+  constructor(totalHp, hp, attacks, paralyzeEffectTime, role) {
+    this._totalHp = totalHp;
+    this._hp = hp;
+    this._attacks = attacks;
+    this._paralyzeEffectTime = paralyzeEffectTime;
+    this._role = role;
+  }
+
+  get totalHp () {
+    return this._totalHp;
+  }
+
+  get hp () {
+    return this._hp;
+  }
+
+  get attacks () {
+    return this._attacks;
+  }
+
+  get paralyzeEffectTime () {
+    return this._paralyzeEffectTime;
+  }
+
+  get role () {
+    return this._role;
+  }
+
+  set hp (newHp) {
+    this._hp = newHp;
+  }
+
+  set paralyzeEffectTime (newParalyzeEffectTime) {
+    this._paralyzeEffectTime = newParalyzeEffectTime;
+  }
+
+  // Check if attacks misses
+  willAttackMiss (accuracy) {
+    return Math.floor(Math.random() * 100) > accuracy;
+  }
+
+  updateHp(newHP) {
+    // Prevents the HP to go lower than 0
+    this._hp = Math.max(newHP, 0);
+  
+    // If player health is equal 0 opponent wins
+    if (this._hp === 0) {
+      roundOver(this._role);
+    }
+  
+    // Update the player hp bar
+    const barWidth = (this._hp / this._totalHp) * 100;
+    if (this._role == 'Player') {
+      playerHpElement.style.width = barWidth + '%';
+    }
+    else{
+    opponentHpElement.style.width = barWidth + '%';
+    }
+  }
+}
 
 const playerAttacks = {
   quick: {
@@ -69,6 +127,9 @@ const opponentAttacks = {
   }
 }
 
+let artoria = new Servant(151500, 151500, playerAttacks, 0, 'Player');
+let gilgamesh = new Servant(130970, 130970, opponentAttacks, 0, 'Opponent');
+
 function gameOver (winner) {
   // Wait 1000 (Health loss animation)
   setTimeout(() => {
@@ -81,102 +142,63 @@ function gameOver (winner) {
   }, 1000);
 }
 
-// Check if attacks misses
-function willAttackMiss (accuracy) {
-  return Math.floor(Math.random() * 100) > accuracy;
-}
-
-function roundOver(winner){
+function roundOver(loser){
   paralyzeEffectTime = 0;
-  
-  if (winner == 'Opponent'){
-    score -= 1;
-    if (score == -2) {
-      gameOver(winner);
-    }
-  }
-
-  if (winner == 'Player'){
-    score += 1;
-    if (score == 2) {
-      gameOver(winner);
-    }
-  }
-  updatePlayerHp(playerTotalHp);
-  updateOpponentHp(opponentTotalHp);
-
   round += 1;
+
+  if (loser == 'Player'){
+    opponentScore += 1;
+  }
+
+  if (loser == 'Opponent'){
+    playerScore += 1;
+  }
+
+  if (round >= 2){
+    if (playerScore >= 2){
+      round -= 1;
+      gameOver('Player');
+    }
+    if (opponentScore >= 2){
+      round -= 1;
+      gameOver('Opponent');
+    }
+  }
+
+  artoria.updateHp(artoria.totalHp);
+  gilgamesh.updateHp(gilgamesh.totalHp);
+
   roundText.innerText = "Round " + round;
   document.getElementById("artoriaImg").src = "assets/artoria" + round + ".webp";
   document.getElementById("gilgameshImg").src = "assets/gilgamesh" + round + ".webp";
 }
 
-function updatePlayerHp(newHP) {
-  // Prevents the HP to go lower than 0
-  playerHp = Math.max(newHP, 0);
-
-  // If player health is equal 0 opponent wins
-  if (playerHp === 0) {
-    roundOver('Opponent');
-  }
-
-  // Update the player hp bar
-  const barWidth = (playerHp / playerTotalHp) * 100;
-  playerHpElement.style.width = barWidth + '%';
-}
-
-function updateOpponentHp(newHP) {
-  // Prevents the HP to go lower than 0
-  opponentHp = Math.max(newHP, 0);
-
-  // If oppont health is equal 0 player wins
-  if (opponentHp === 0) {
-    roundOver('Player');
-  }
-
-  // Update the opponents hp bar
-  const barWidth = (opponentHp / opponentTotalHp) * 100;
-  opponentHpElement.style.width = barWidth + '%';
-}
-
-// *************************************************************************************
-// Here you need to implement the player attack function that receives the used attack
-// return false if attack misses
-// otherwise update opponents health and return true
-// *************************************************************************************
 function playerAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update opponents health and return true
-  if (Math.random() * 100 < attack.accuracy){
-    updateOpponentHp(opponentHp - attack.power);
-    if (attack.name == 'Excalibur'){
-      paralyzeEffectTime = 2;
-    }
-    return 1;
+  if (gilgamesh.willAttackMiss(attack.accuracy)){
+    return 0;
   }
-  return 0;
+  gilgamesh.updateHp(gilgamesh.hp - attack.power);
+  if (attack.name == 'Excalibur'){
+    paralyzeEffectTime = 2;
+  }
+    return 1;
 }
 
-// *************************************************************************************
-// Here you need to implement the opponent attack function that receives the used attack
-// return false if attack misses
-// otherwise update player health and return true
-// *************************************************************************************
-
-// opponent attack function that receives the used attack
 function opponentAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update player health and return true
-  if (Math.random() * 100 < attack.accuracy && paralyzeEffectTime == 0){
-    updatePlayerHp(playerHp - attack.power);
-    return 1;
+  if (artoria.willAttackMiss(attack.accuracy) || paralyzeEffectTime != 0){
+    return 0;
   }
-  return 0;
+  artoria.updateHp(artoria.hp - attack.power);
+    return 1;
 }
 
 function opponentAttackType(attack) {
-  if (attack.type == 'divine' && paralyzeEffectTime == 0){
-    updatePlayerHp(playerHp - attack.power);
+  if (attack.type == 'divine' && gilgamesh.paralyzeEffectTime == 0){
+    artoria.updateHp(artoria.hp - attack.power);
     return 1;
   }
   return 0;
@@ -184,7 +206,7 @@ function opponentAttackType(attack) {
 
 function chooseOpponentAttack () {
   // Put all opponents attacks in a array
-  const possibleAttacks = Object.values(opponentAttacks);
+  const possibleAttacks = Object.values(gilgamesh.attacks);
 
   // Randomly chooses one attack from the array
   return possibleAttacks[Math.floor(Math.random() * possibleAttacks.length)];
@@ -244,14 +266,14 @@ function turn(playerChosenAttack) {
 
 // Set buttons click interaction
 document.getElementById('quick-button').addEventListener('click', function() {
-  turn(playerAttacks.quick);
+  turn(artoria.attacks.quick);
 });
 document.getElementById('arts-button').addEventListener('click', function() {
-  turn(playerAttacks.arts);
+  turn(artoria.attacks.arts);
 });
 document.getElementById('buster-button').addEventListener('click', function() {
-  turn(playerAttacks.buster);
+  turn(artoria.attacks.buster);
 });
 document.getElementById('np-button').addEventListener('click', function() {
-  turn(playerAttacks.np);
+  turn(artoria.attacks.np);
 });
