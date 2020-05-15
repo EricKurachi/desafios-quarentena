@@ -9,6 +9,48 @@ const CellColors = [
 	'black',
 ];
 
+// values if there aren't any query params
+numberOfBombs = 300;
+width = 50;
+height = 30;
+
+
+const urlParams = new URLSearchParams(window.location.search);
+const myParam = urlParams.get('diff');
+
+// if URLSearchParams doesn't work, use the code below
+
+/*
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+myParam = getParameterByName('diff');
+}*/
+
+if (myParam == '1') {
+	numberOfBombs = 15;
+	height = 8;
+	width = 12;
+}
+
+if (myParam == '2') {
+	numberOfBombs = 70;
+	height = 16;
+	width = 20;
+}
+
+if (myParam == '3') {
+	numberOfBombs = 400;
+	height = 30;
+	width = 50;
+}
+
 // Cell class declaration
 class Cell {
 	constructor (root, x, y, map) {
@@ -186,9 +228,7 @@ class Map {
 	lifeLoss() {
 		this.lives = this.lives - 1;
 		document.getElementById("lives").innerHTML = "Lives: " + this.lives;
-		if (this.lives <= 0){
-			this.gameOver();
-		}
+		if (this.lives <= 0) this.gameOver();
 		return;
 	}
 
@@ -197,32 +237,13 @@ class Map {
 			for (let column = 0; column < this.width; column ++) {
 				const cell = this.cells[row][column];
 				if (cell.isBomb && !cell.isFlagged) cell.reveal();
+				if (cell.isBomb && cell.isFlagged) cell.element.style.backgroundColor = 'green';
+				if (!cell.isBomb && cell.isFlagged) cell.element.style.backgroundColor = 'red';
 			}
 		}
 		this.isGameOver = true;
 	}
 }
-
-/*
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, ' '));
-
-difficultyRatio = parseFloat(getParameterNyName('diff'));
-}*/
-
-const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get('diff');
-difficultyRatio = parseFloat(myParam);
-
-width = 50;
-height = 30;
-numberOfBombs = width * height * difficultyRatio;
 
 // Instantiate a Map object
 new Map(document.getElementById('root'), width, height, numberOfBombs, 3);
