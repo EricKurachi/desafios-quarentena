@@ -203,5 +203,26 @@ class Map {
 	}
 }
 
+/*
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+difficultyRatio = parseFloat(getParameterNyName('diff'));
+}*/
+
+const urlParams = new URLSearchParams(window.location.search);
+const myParam = urlParams.get('diff');
+difficultyRatio = parseFloat(myParam);
+
+width = 50;
+height = 30;
+numberOfBombs = width * height * difficultyRatio;
+
 // Instantiate a Map object
-new Map(document.getElementById('root'), 50, 30, 300, 3);
+new Map(document.getElementById('root'), width, height, numberOfBombs, 3);
