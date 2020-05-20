@@ -8,6 +8,18 @@ body, html {
 	overflow: hidden;
 }
 
+#score {
+	text-align: center;
+	color: blue;
+	font-size: large;
+}
+
+#time {
+	text-align: center;
+	color: red;
+	font-size: large;
+}
+
 #root {
 	height: 100%;
 	width: 100%;
