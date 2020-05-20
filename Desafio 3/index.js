@@ -13,6 +13,9 @@ const timer = new Timer(0, 0);
 // starts timer
 timer.timerIncrement();
 
+// starts score
+const score = new Score(0);
+
 // creates the single only player instance in the game.
 const player = new Player(
 	movableEntityContainer,
@@ -52,7 +55,7 @@ document.body.addEventListener('keyup', event => {
 // Registers the frame function to run at every frame.
 // if you'd like to know more about intervals, see this link
 // https://javascript.info/settimeout-setinterval
-
+// fixed performance by using Nested setTimeout instead of setInterval
 const intervalHandler = setTimeout(function repeat(){
 	frame();
 	intervalHandler = setTimeout(repeat)

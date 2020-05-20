@@ -36,6 +36,7 @@ class Asteroid extends MovableEntity {
 
 		// initializes the asteroid's life to it's maximum.
 		this.life = this.calculateMaxLife();
+		this.maxlife = this.life;
 
 		// Finds a random image to assign to the asteroid's element
 		const asteroidImageIndex = Math.floor(Math.random() * 3) + 1;
@@ -94,6 +95,7 @@ class Asteroid extends MovableEntity {
 
 		this.life --;
 		if (this.life === 0) {
+			score.asteroidDestructed(this.maxlife);
 			this.mapInstance.removeEntity(this);
 			this.delete();
 		}
