@@ -52,7 +52,13 @@ document.body.addEventListener('keyup', event => {
 // Registers the frame function to run at every frame.
 // if you'd like to know more about intervals, see this link
 // https://javascript.info/settimeout-setinterval
-const intervalHandler = setInterval(frame);
+
+const intervalHandler = setTimeout(function repeat(){
+	frame();
+	intervalHandler = setTimeout(repeat)
+})
+
+
 
 // This is the function that will end the game
 function gameOver () {
