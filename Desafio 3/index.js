@@ -7,6 +7,12 @@ const movableEntityContainer = document.getElementById('movable-entity-container
 // https://en.wikipedia.org/wiki/Singleton_pattern
 const map = new Map(movableEntityContainer);
 
+// initializes timer
+const timer = new Timer(0, 0);
+
+// starts timer
+timer.timerIncrement();
+
 // creates the single only player instance in the game.
 const player = new Player(
 	movableEntityContainer,
