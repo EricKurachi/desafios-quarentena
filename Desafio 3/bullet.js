@@ -21,14 +21,22 @@ class Bullet extends MovableEntity {
 		type
 	) {
 		var BULLET_SIZE = 10;
+		const aux = direction;
 
-		if (type == 'big') BULLET_SIZE = 20;
+		if (type == 'big'){
+			var myDirection = new Vector(0, 0);
+			BULLET_SIZE = 20;
+			myDirection.x = event.clientX - (player.position.x + document.getElementById('arena-line').getBoundingClientRect().x + 250);
+			myDirection.y = event.clientY - (player.position.y + document.getElementById('arena-line').getBoundingClientRect().y + 250); 
+			super(containerElement, BULLET_SIZE, player.position, myDirection.normalize().scale(BULLET_SPEED), myDirection); 
+		}
 
 		// The `super` function will call the constructor of the parent class.
 		// If you'd like to know more about class inheritance in javascript, see this link
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Sub_classing_with_extends
-		super(containerElement, BULLET_SIZE, player.position, direction.normalize().scale(BULLET_SPEED), direction);
-
+		else{
+			super(containerElement, BULLET_SIZE, player.position, direction.normalize().scale(BULLET_SPEED), direction);
+		}
 
 		this.mapInstance = mapInstance;
 
