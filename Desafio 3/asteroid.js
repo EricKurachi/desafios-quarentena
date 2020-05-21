@@ -99,9 +99,20 @@ class Asteroid extends MovableEntity {
 
 		this.life --;
 		if (this.life === 0) {
-			score.asteroidDestructed(this.maxlife);
-			this.mapInstance.removeEntity(this);
-			this.delete();
+			// in case the asteroid is a medium to big of the type split, it reduces instead of dissapearing
+			if (this.maxlife > 1 && this.type == 'split') {
+				this.life = 1;
+				this.maxlife = 1;
+				this.rootElement.style.height = '20px';
+				this.rootElement.style.width = '20px';
+				this.rootElement.style.backgroundSize = '20px'; 
+				super.size = 20;
+			}
+			else{
+				score.asteroidDestructed(this.maxlife);
+				this.mapInstance.removeEntity(this);
+				this.delete();
+			}
 		}
 		if (this.type == 'fast') {
 			this.velocity = this.velocity.add(this.velocity);
