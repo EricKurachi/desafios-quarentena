@@ -6,20 +6,29 @@ body, html {
 	margin: 0;
 	height: 100%;
 	overflow: hidden;
-	background-color: silver;
+	background-color: black;
 }
 
 #score {
 	text-align: center;
-	color: black;
+	color: white;
 	font-size: 30px;
 	padding-left: px;
+	font-family: fantasy;
+}
+
+#weapons {
+	text-align: center;
+	color: white;
+	font-size: 30px;
+	font-family: fantasy;
 }
 
 #time {
 	text-align: center;
-	color: black;
+	color: white;
 	font-size: 30px;
+	font-family: fantasy;
 }
 
 #root {
@@ -40,6 +49,7 @@ body, html {
 	border: 1px solid black;
 	border-radius: 100%;
 	overflow: hidden;
+	background-color: silver;
 }
 
 #movable-entity-container {
