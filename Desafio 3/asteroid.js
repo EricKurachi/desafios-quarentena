@@ -21,6 +21,7 @@ class Asteroid extends MovableEntity {
 	) {
 		const size = Asteroid.getRandomSize();
 		const direction = Asteroid.getRandomDirection();
+		const types = ['normal', 'fast', 'split'];
 
 		// The `super` function will call the constructor of the parent class.
 		// If you'd like to know more about class inheritance in javascript, see this link
@@ -33,6 +34,9 @@ class Asteroid extends MovableEntity {
 		// This is so the map can execute the player's physics (see the `frame` function
 		// in the `map.js` file
 		mapInstance.addEntity(this);
+			
+		// Creates a random type to an asteroid
+		this.type = types[Math.floor(Math.random()*types.length)];
 
 		// initializes the asteroid's life to it's maximum.
 		this.life = this.calculateMaxLife();
@@ -40,7 +44,7 @@ class Asteroid extends MovableEntity {
 
 		// Finds a random image to assign to the asteroid's element
 		const asteroidImageIndex = Math.floor(Math.random() * 3) + 1;
-		this.rootElement.style.backgroundImage = `url('assets/asteroid-${asteroidImageIndex}.svg')`;
+		this.rootElement.style.backgroundImage = `url('assets/${this.type}-asteroid-${asteroidImageIndex}.svg')`;
 		this.rootElement.style.backgroundSize = size + 'px';
 	}
 
@@ -98,6 +102,9 @@ class Asteroid extends MovableEntity {
 			score.asteroidDestructed(this.maxlife);
 			this.mapInstance.removeEntity(this);
 			this.delete();
+		}
+		if (this.type == 'fast') {
+			this.velocity = this.velocity.add(this.velocity);
 		}
 	}
 
