@@ -3,8 +3,9 @@ class Score{
         this.points = points;
     }
 
-    asteroidDestructed (maxlife) {
-        this.points += maxlife;
+    // the score can be based on the max life if the asteroid
+    asteroidDestructed (points) {
+        this.points += points;
         document.getElementById("score").innerText = "Score: " + this.points;
     }
 }

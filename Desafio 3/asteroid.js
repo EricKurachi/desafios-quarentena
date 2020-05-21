@@ -109,7 +109,8 @@ class Asteroid extends MovableEntity {
 				super.size = 20;
 			}
 			else{
-				score.asteroidDestructed(this.maxlife);
+				// using max life inside the asteroidDestructed method makes the score based on max life of asteroids
+				score.asteroidDestructed(1);
 				this.mapInstance.removeEntity(this);
 				this.delete();
 			}
