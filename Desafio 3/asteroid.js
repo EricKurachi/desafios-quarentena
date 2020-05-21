@@ -97,8 +97,8 @@ class Asteroid extends MovableEntity {
 		// https://www.geeksforgeeks.org/instanceof-operator-in-javascript/
 		if (!(object instanceof Bullet)) return;
 
-		this.life --;
-		if (this.life === 0) {
+		this.life -= object.damage;
+		if (this.life <= 0) {
 			// in case the asteroid is a medium to big of the type split, it reduces instead of dissapearing
 			if (this.maxlife > 1 && this.type == 'split') {
 				this.life = 1;

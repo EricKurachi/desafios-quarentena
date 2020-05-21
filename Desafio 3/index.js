@@ -37,10 +37,16 @@ function frame () {
 // https://pietschsoft.com/post/2015/09/05/javascript-basics-how-to-create-a-dictionary-with-keyvalue-pairs
 const pressedKeys = {};
 
+var bulletType = 'normal';
+
 // This function will run every time the player presses a key
 document.body.addEventListener('keydown', event => {
 	// if that key is the spacebar, the player will shoot.
-	if (event.key === ' ' && !pressedKeys[' ']) player.shoot();
+	if (event.key === ' ' && !pressedKeys[' ']) player.shoot(bulletType);
+
+	if (event.key === '1' && !pressedKeys['1']) bulletType = 'normal';
+
+	if (event.key === '2' && !pressedKeys['2']) bulletType = 'double';
 
 	// add the pressed key to the pressedKey dictionary
 	pressedKeys[event.key] = true;
@@ -58,7 +64,7 @@ document.body.addEventListener('keyup', event => {
 // fixed performance by using Nested setTimeout instead of setInterval
 const intervalHandler = setTimeout(function repeat(){
 	frame();
-	intervalHandler = setTimeout(repeat)
+	intervalHandler = setTimeout(repeat);
 })
 
 

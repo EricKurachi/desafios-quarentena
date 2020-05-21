@@ -41,7 +41,7 @@ class Player extends MovableEntity {
 		mapInstance.addEntity(this);
 
 		// Assigns the player's image to it's element
-		this.rootElement.style.backgroundImage = "url('assets/ship.png')" ;
+		this.rootElement.style.backgroundImage = "url('assets/ship.png')";
 		this.rootElement.style.backgroundSize = this.size + 'px';
 	}
 
@@ -56,8 +56,8 @@ class Player extends MovableEntity {
 	/**
 	* Instantiates a bullet in front of the player.
 	*/
-	shoot () {
-		new Bullet (this.containerElement, this.mapInstance, this.direction);
+	shoot (bulletType) {
+		new Bullet (this.containerElement, this.mapInstance, this.direction, bulletType);
 	}
 
 	/**
