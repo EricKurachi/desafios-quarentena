@@ -1,4 +1,3 @@
-const BULLET_SIZE = 10;
 const BULLET_SPEED = 1;
 
 /**
@@ -21,10 +20,15 @@ class Bullet extends MovableEntity {
 		direction,
 		type
 	) {
+		var BULLET_SIZE = 10;
+
+		if (type == 'big') BULLET_SIZE = 20;
+
 		// The `super` function will call the constructor of the parent class.
 		// If you'd like to know more about class inheritance in javascript, see this link
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Sub_classing_with_extends
 		super(containerElement, BULLET_SIZE, player.position, direction.normalize().scale(BULLET_SPEED), direction);
+
 
 		this.mapInstance = mapInstance;
 
@@ -41,6 +45,13 @@ class Bullet extends MovableEntity {
 			this.rootElement.style.backgroundSize = this.size + 'px';
 			this.damage = 2;
 		}
+
+		else if (this.type == 'big') {
+			this.rootElement.style.backgroundImage = "url('assets/bullet.svg')";
+			this.rootElement.style.backgroundSize = this.size + 'px';
+			this.damage = 1;
+		}
+
 		else {
 			this.rootElement.style.backgroundImage = "url('assets/bullet.svg')";
 			this.rootElement.style.backgroundSize = this.size + 'px';

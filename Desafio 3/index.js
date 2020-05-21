@@ -60,6 +60,10 @@ document.body.addEventListener('keyup', event => {
 	delete pressedKeys[event.key];
 });
 
+document.body.addEventListener('mousedown', event => {
+	if (event.button === 0 && !event.buttons['0']) player.shoot('big')
+});
+
 // Registers the frame function to run at every frame.
 // if you'd like to know more about intervals, see this link
 // https://javascript.info/settimeout-setinterval
