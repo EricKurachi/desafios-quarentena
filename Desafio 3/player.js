@@ -43,6 +43,8 @@ class Player extends MovableEntity {
 		// Assigns the player's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/ship.png')";
 		this.rootElement.style.backgroundSize = this.size + 'px';
+
+		
 	}
 
 	/**
@@ -51,6 +53,11 @@ class Player extends MovableEntity {
 	*/
 	turn (degrees) {
 		this.setDirection(this.direction.rotate(degrees));
+	}
+
+	advance (speed) {
+		this.position.x += this.direction.x * speed;
+		this.position.y += this.direction.y * speed;
 	}
 
 	/**

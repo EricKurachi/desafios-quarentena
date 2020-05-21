@@ -28,7 +28,9 @@ function frame () {
 	map.frame();
 
 	// if the player is pressing one of the keys, call the turn function
+	if (pressedKeys['w'] || pressedKeys['ArrowUp']) player.advance(0.2);
 	if (pressedKeys['a'] || pressedKeys['ArrowLeft']) player.turn(-1);
+	if (pressedKeys['s'] || pressedKeys['ArrowDown']) player.advance(-0.2);
 	if (pressedKeys['d'] || pressedKeys['ArrowRight']) player.turn(1);
 }
 
