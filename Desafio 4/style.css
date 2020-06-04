@@ -6,6 +6,7 @@ body, html {
 	margin: 0;
 	height: 100%;
 	overflow: hidden;
+	border: 1em;
 }
 
 #root {
@@ -33,4 +34,16 @@ body, html {
 
 .movable-entity, .entity {
 	position: absolute;
+}
+
+#hud {
+	justify-content: center;
+	width: 400px;
+	display: flex;
+	justify-content: space-between;
+	margin: auto;
+}
+
+#score, #level {
+	font-size: 30px;
 }

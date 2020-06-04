@@ -13,6 +13,7 @@ function frame () {
 document.body.addEventListener('keydown', event => {
 	// if that key is the spacebar, the player will try to throw it's hook.
 	if (event.key === ' ') player.throwHook();
+	else if (event.key === 'w') player.megaThrowHook();
 });
 
 // Registers the frame function to run at every frame.
