@@ -4,6 +4,9 @@ const FLOOR_HEIGHT = -100;
 const BASE_SCORE_FOR_NEXT_LEVEL = 5;
 const BASE_NUMBER_OF_ROCKS = 2;
 
+// Element that shows the current level to the player
+const levelTextDisplay = document.getElementById('level');
+
 /**
 * This is a class declaration
 * This class is responsible for defining the GameMap behavior
@@ -59,6 +62,9 @@ class GameMap extends Entity {
 
 	nextLevel () {
 		this.level ++;
+		// Updates the level displayed
+		levelTextDisplay.innerText = 'Level: ' + this.level;
+		// Delete all remaining gold, rock and ruby elements
 		console.log('next level');
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
@@ -118,10 +124,10 @@ class GameMap extends Entity {
 	*/
 	isEntityOutOfBounds (entity) {
 		return (
-			entity.position.x >= MAP_SIZE.x / 2 ||
-			entity.position.x <= -MAP_SIZE.x / 2 ||
-			entity.position.y >= MAP_SIZE.y / 2 ||
-			entity.position.y <= -MAP_SIZE.y / 2
+			entity.position.x >= (MAP_SIZE.x / 2) - 50 ||
+			entity.position.x <= (-MAP_SIZE.x / 2) + 50 ||
+			entity.position.y >= (MAP_SIZE.y / 2) - 50 ||
+			entity.position.y <= (-MAP_SIZE.y / 2) + 50
 		);
 	}
 
@@ -186,6 +192,8 @@ class GameMap extends Entity {
 		MovableEntity.runAllFrameFunctions();
 
 		const hook = Hook.hookElement;
+
+		const lastStatus = hook.status
 
 		// No need to check for collision if the hook is being pulled back
 		if (hook.status === 'pulling') return;
