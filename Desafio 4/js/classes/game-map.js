@@ -1,7 +1,7 @@
 const MAP_SIZE = new Vector(400, 400);
 const FLOOR_HEIGHT = -100;
 
-const BASE_SCORE_FOR_NEXT_LEVEL = 7;
+const BASE_SCORE_FOR_NEXT_LEVEL = 6;
 const BASE_NUMBER_OF_ROCKS = 2;
 
 // Element that shows the current level to the player
@@ -39,7 +39,7 @@ class GameMap extends Entity {
 		this.floor.rootElement.style.border = '1px solid black';
 		this.floor.rootElement.style.zIndex = '1';
 
-		// The current game level. Will increase when player captures enough gold
+		// The current game level. Will increase when player captures enough Treasures (gold and rubys)
 		this.level = 1;
 
 		this.initializeLevel();
@@ -48,7 +48,7 @@ class GameMap extends Entity {
 	}
 
 	/**
-	* Will initialize the whole level, creating all golds and rocks
+	* Will initialize the whole level, creating all golds, rubys and rocks
 	*/
 	initializeLevel () {
 		while (this.getCurrentTreasureScoreInMap() < this.calculateTotalTreasureScore()) {
@@ -76,7 +76,7 @@ class GameMap extends Entity {
 
 		if (this.level === 10) this.gameOver();
 
-		// Delete all remaining gold and rock elements
+		// Delete all remaining gold, rubys and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());
 		Ruby.allRubyElements.forEach(ruby => ruby.delete());
@@ -108,7 +108,7 @@ class GameMap extends Entity {
 	}
 
 	/**
-	* calculates the sum of the score of all existing gold in the map
+	* calculates the sum of the score of all existing treasure in the map
 	*/
 	getCurrentTreasureScoreInMap () {
 		let score = 0;
@@ -209,7 +209,6 @@ class GameMap extends Entity {
 
 		const hook = Hook.hookElement;
 
-		const lastStatus = hook.status
 		// No need to check for collision if the hook is being pulled back
 		if (hook.status === 'pulling') return;
 

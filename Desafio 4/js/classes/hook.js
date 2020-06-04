@@ -63,7 +63,7 @@ class Hook extends MovableEntity {
 		this.state = 'swinging';
 
 		/**
-		* This will hold the hooked object (gold of rock). If null, no object is currently being hooked
+		* This will hold the hooked object (treasure or rock). If null, no object is currently being hooked
 		* @type { Entity | null }
 		*/
 		this.hookedObject = null;
