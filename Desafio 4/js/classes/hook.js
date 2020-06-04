@@ -1,6 +1,6 @@
 const HOOK_SIZE = new Vector(20, 20);
 const THROW_SPEED = 0.5;
-const MEGA_THROW_SPEED = 0.8;
+const MEGA_THROW_SPEED = 1;
 const BASE_HOOK_PULL_SPEED = 0.3;
 const EMPTY_HOOK_SPEED = 2.0;
 const CHAIN_SPACING = 7;
@@ -27,12 +27,12 @@ class Hook extends MovableEntity {
 	/**
 	* @argument { HTMLDivElement } containerElement The HTML element in which the hook should be created
 	* @argument { Vector } initialPosition
-	* @argument { Function } onTreasureDelivered A function to be called whenever treasure is pulled back.
+	* @argument { Function } onGoldDelivered A function to be called whenever gold is pulled back.
 	*/
 	constructor (
 		containerElement,
 		initialPosition,
-		onTreasDelivered,
+		onGoldDelivered,
 	) {
 		// The `super` function will call the constructor of the parent class.
 		// If you'd like to know more about class inheritance in javascript, see this link
@@ -59,7 +59,7 @@ class Hook extends MovableEntity {
 		this.state = 'swinging';
 
 		/**
-		* This will hold the hooked object (gold, ruby or rock). If null, no object is currently being hooked
+		* This will hold the hooked object (gold of rock). If null, no object is currently being hooked
 		* @type { Entity | null }
 		*/
 		this.hookedObject = null;
@@ -118,7 +118,7 @@ class Hook extends MovableEntity {
 	*/
 	removeLastChain () {
 		if (this.chains.length === 0) return;
-		
+
 		this.chains.pop().delete();
 	}
 
@@ -158,7 +158,7 @@ class Hook extends MovableEntity {
 		// Only swinging hooks can be thrown
 		if (this.state !== 'swinging') return;
 
-		// Changes hook to red when mega hook is active
+		// Assigns the hook's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/megahook.svg')";
 
 		// updates the hook state
@@ -176,7 +176,6 @@ class Hook extends MovableEntity {
 		// Only hooks that are being thrown or megathrown can be pulled back.
 		if (this.state !== 'throwing' && this.state !== 'megaThrowing') return;
 
-		// megaThrow only pushes and shouldn't carry stones in the pullBack
 		if (this.state === 'megaThrowing') this.hookedObject = null;
 		
 		// Updates the hook state.
@@ -227,18 +226,18 @@ class Hook extends MovableEntity {
 		// Remove all remaining chain links.
 		while(this.chains.length > 0) this.removeLastChain();
 
+		// Returns to the standard hook appearance
+		this.rootElement.style.backgroundImage = "url('assets/hook.svg')";
+
 		if (this.hookedObject) {
 			if (this.hookedObject instanceof Gold) {
-				// A treasure was brought back! call the treasure delivery callback.
+				// Gold was brought back! call the gold delivery callback.
 				this.onGoldDelivered(this.hookedObject);
 			}
 			// removes forever the object that was pulled.
 			this.hookedObject.delete();
 			this.hookedObject = null;
 		}
-
-		// Returns hook to original color
-		this.rootElement.style.backgroundImage = "url('assets/hook.svg')";
 	}
 
 	/**
@@ -247,7 +246,7 @@ class Hook extends MovableEntity {
 	* allow for behavior extension.
 	*/
 	collided (object) {
-		if (object instanceof Gold || object instanceof Rock || object instanceof Ruby) {
+		if (object instanceof Gold || object instanceof Rock) {
 			this.hookedObject = object;
 			this.hookedObject.offset = this.hookedObject.position.subtract(this.position);
 			if (this.state !== 'megaThrowing') this.pullBack();

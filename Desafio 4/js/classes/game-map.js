@@ -64,8 +64,6 @@ class GameMap extends Entity {
 		this.level ++;
 		// Updates the level displayed
 		levelTextDisplay.innerText = 'Level: ' + this.level;
-		// Delete all remaining gold, rock and ruby elements
-		console.log('next level');
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());
@@ -123,12 +121,13 @@ class GameMap extends Entity {
 	* @returns { boolean }
 	*/
 	isEntityOutOfBounds (entity) {
-		return (
-			entity.position.x >= (MAP_SIZE.x / 2) - 50 ||
-			entity.position.x <= (-MAP_SIZE.x / 2) + 50 ||
-			entity.position.y >= (MAP_SIZE.y / 2) - 50 ||
-			entity.position.y <= (-MAP_SIZE.y / 2) + 50
-		);
+			return (
+				entity.position.x >= (MAP_SIZE.x / 2) - 50 ||
+				entity.position.x <= (-MAP_SIZE.x / 2) + 50 ||
+				entity.position.y >= (MAP_SIZE.y / 2) - 50 ||
+				entity.position.y <= (-MAP_SIZE.y / 2) + 50
+			);
+
 	}
 
 	/**
@@ -194,7 +193,6 @@ class GameMap extends Entity {
 		const hook = Hook.hookElement;
 
 		const lastStatus = hook.status
-
 		// No need to check for collision if the hook is being pulled back
 		if (hook.status === 'pulling') return;
 

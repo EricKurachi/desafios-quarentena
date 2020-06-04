@@ -1,5 +1,8 @@
 const PLAYER_SIZE = new Vector(50, 50);
 
+// Element that shows the current score to the player
+const scoreTextDisplay = document.getElementById('score');
+
 /**
 * This is a class declaration
 * This class is responsible for defining the player behavior
@@ -55,11 +58,16 @@ class Player extends Entity {
 	*/
 	onGoldHooked (goldElement) {
 		this.score += goldElement.calculateScore();
-		console.log('current player score is', this.score);
+		// Updates the level displayed
+		scoreTextDisplay.innerText = 'Score: ' + this.score;
 		GameMap.instance.verifyIfLevelIsOver();
 	}
 
 	throwHook () {
 		this.hook.throw();
+	}
+
+	megaThrowHook () {
+		this.hook.megaThrow();
 	}
 }
