@@ -1,7 +1,7 @@
 const MAP_SIZE = new Vector(400, 400);
 const FLOOR_HEIGHT = -100;
 
-const BASE_SCORE_FOR_NEXT_LEVEL = 5;
+const BASE_SCORE_FOR_NEXT_LEVEL = 7;
 const BASE_NUMBER_OF_ROCKS = 2;
 
 // Element that shows the current level to the player
@@ -51,8 +51,9 @@ class GameMap extends Entity {
 	* Will initialize the whole level, creating all golds and rocks
 	*/
 	initializeLevel () {
-		while (this.getCurrentGoldScoreInMap() < this.calculateTotalGoldScore()) {
+		while (this.getCurrentTreasureScoreInMap() < this.calculateTotalTreasureScore()) {
 			this.generateItem('gold');
+			this.generateItem('ruby');
 		}
 
 		for (let i = 0; i < this.calculateNumberOfRocks(); i ++) {
@@ -78,6 +79,7 @@ class GameMap extends Entity {
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());
+		Ruby.allRubyElements.forEach(ruby => ruby.delete());
 		this.initializeLevel();
 	}
 
@@ -94,7 +96,7 @@ class GameMap extends Entity {
 	* calculates the total score the level should have. It must alwasy be larger
 	* than the minimum score
 	*/
-	calculateTotalGoldScore () {
+	calculateTotalTreasureScore () {
 		return this.calculateMinimumScore(this.level) + this.level * 2;
 	}
 
@@ -108,9 +110,10 @@ class GameMap extends Entity {
 	/**
 	* calculates the sum of the score of all existing gold in the map
 	*/
-	getCurrentGoldScoreInMap () {
+	getCurrentTreasureScoreInMap () {
 		let score = 0;
 		Gold.allGoldElements.forEach(gold => score += gold.calculateScore());
+		Ruby.allRubyElements.forEach(ruby => score += ruby.calculateScore());
 		return score;
 	}
 
@@ -143,12 +146,13 @@ class GameMap extends Entity {
 
 	/**
 	* Will generate either a rock element, or a gold element.
-	* @argument { 'rock' | 'gold' } itemType
+	* @argument { 'rock' | 'gold' | 'ruby'} itemType
 	*/
 	generateItem (itemType) {
 		let element;
 		if (itemType === 'rock') element = new Rock(this.containerElement, Vector.zero);
 		else if (itemType === 'gold') element = new Gold(this.containerElement, Vector.zero);
+		else if (itemType === 'ruby') element = new Ruby(this.containerElement, Vector.zero);
 		else throw new Error(`Invalid item type '${itemType}'`);
 
 		// Checks if the new element is colliding with anything on the map
@@ -157,6 +161,8 @@ class GameMap extends Entity {
 			if (isCollidingWithRocks) return true;
 			const isCollidingWithGold = Gold.allGoldElements.some(gold => Entity.didEntitiesColide(gold, element));
 			if (isCollidingWithGold) return true;
+			const isCollidingWithRuby = Ruby.allRubyElements.some(ruby => Entity.didEntitiesColide(ruby, element));
+			if (isCollidingWithRuby) return true;
 			return false;
 		}
 
@@ -207,9 +213,9 @@ class GameMap extends Entity {
 		// No need to check for collision if the hook is being pulled back
 		if (hook.status === 'pulling') return;
 
-		const rockAndGoldEntities = Rock.allRockElements.concat(Gold.allGoldElements);
+		const objectEntities = Rock.allRockElements.concat(Gold.allGoldElements, Ruby.allRubyElements);
 
-		rockAndGoldEntities.forEach(entity => {
+		objectEntities.forEach(entity => {
 			this.verifyForCollision(hook, entity);
 		});
 

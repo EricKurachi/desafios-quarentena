@@ -52,12 +52,12 @@ class Player extends Entity {
 	}
 
 	/**
-	* This funtion will be called whenever the hook catches gold, and it updates the
+	* This funtion will be called whenever the hook catches treasure, and it updates the
 	* player's total score
-	* @argument { Gold } goldElement
+	* @argument { Gold } TreasureElement
 	*/
-	onGoldHooked (goldElement) {
-		this.score += goldElement.calculateScore();
+	onGoldHooked (treasureElement) {
+		this.score += treasureElement.calculateScore();
 		// Updates the level displayed
 		scoreTextDisplay.innerText = 'Score: ' + this.score;
 		GameMap.instance.verifyIfLevelIsOver();

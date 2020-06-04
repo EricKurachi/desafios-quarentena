@@ -1,5 +1,5 @@
-const MAX_RUBY_SIZE = 17;
-const MIN_RUBY_SIZE = 5;
+const MAX_RUBY_SIZE = 45;
+const MIN_RUBY_SIZE = 20;
 
 const MIN_RUBY_SCORE = 3;
 const MAX_RUBY_SCORE = 9;
