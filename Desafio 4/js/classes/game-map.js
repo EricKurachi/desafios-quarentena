@@ -40,7 +40,7 @@ class GameMap extends Entity {
 		this.floor.rootElement.style.zIndex = '1';
 
 		// The current game level. Will increase when player captures enough gold
-		this.level = 0;
+		this.level = 1;
 
 		this.initializeLevel();
 
@@ -60,10 +60,21 @@ class GameMap extends Entity {
 		}
 	}
 
+	// This method is activated when the player wins
+	gameOver () {
+		// This will unregister the frame function, so nothing else will be updated
+		clearInterval(intervalHandler);
+		alert('Você venceu!');
+	}
+
+
 	nextLevel () {
 		this.level ++;
 		// Updates the level displayed
 		levelTextDisplay.innerText = 'Level: ' + this.level;
+
+		if (this.level === 10) this.gameOver();
+
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());

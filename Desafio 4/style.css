@@ -38,12 +38,19 @@ body, html {
 
 #hud {
 	justify-content: center;
-	width: 400px;
+	width: 600px;
 	display: flex;
 	justify-content: space-between;
 	margin: auto;
 }
 
-#score, #level {
+#score, #mega-hook, #level {
 	font-size: 30px;
+}
+
+#instructions {
+	justify-content: center;
+	display: flex;
+	margin: auto;
+	transform: translate(0, 10px);
 }

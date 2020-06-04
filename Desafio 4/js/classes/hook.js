@@ -5,6 +5,10 @@ const BASE_HOOK_PULL_SPEED = 0.3;
 const EMPTY_HOOK_SPEED = 2.0;
 const CHAIN_SPACING = 7;
 const CHAIN_SIZE = 10;
+const MEGA_THROW_AMMO = 5;
+
+// Element that shows the current ammo for mega throw
+const ammoTextDisplay = document.getElementById('mega-hook');
 
 /**
 * This is a class declaration
@@ -69,6 +73,9 @@ class Hook extends MovableEntity {
 		* @type { Entity[] }
 		*/
 		this.chains = [];
+
+		// Mega throw ammo
+		this.megaAmmo = MEGA_THROW_AMMO;
 
 		Hook.hookElement = this;
 	}
@@ -155,14 +162,21 @@ class Hook extends MovableEntity {
 	* Will start a throw that pushes objects
 	*/
 	megaThrow () {
-		// Only swinging hooks can be thrown
-		if (this.state !== 'swinging') return;
+
+		// Can't use mega throw without ammo and only swinging hooks can be thrown
+		if (this.megaAmmo === 0 || this.state !== 'swinging') return;
 
 		// Assigns the hook's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/megahook.svg')";
 
-		// updates the hook state
+		// Updates the hook state
 		this.state = 'megaThrowing';
+
+		// Ammunition used
+		this.megaAmmo -= 1;
+
+		// HTML update to show ammunition
+		ammoTextDisplay.innerText = 'Mega Ammo: ' + this.megaAmmo;
 
 		this.velocity = this.direction.scale(MEGA_THROW_SPEED);
 	}
