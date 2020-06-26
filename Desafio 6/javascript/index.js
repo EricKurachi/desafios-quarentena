@@ -1,19 +1,15 @@
 process.env.NTBA_FIX_319 = true; // Silences an annoying error message.
 const TelegramBot = require('node-telegram-bot-api');
-const jokempo = require('./jokempo');
+const token = require('./token');
 const randomPhrases = require('./random-phrases');
 const help = require('./help');
+const escolher = require('./escolher');
+const escolhercomida = require('./escolhercomida')
+const jokempo = require('./jokempo');
 
-// replace the value below with the Telegram token you receive from @BotFather
-const token = '1139287693:AAGsvr5gyTiHB15WnsC0U95CqGs_SjG3tmw';
-
-if (token === 'YOUR ACCESS TOKEN HERE') {
-	console.log('You forgot to replate the access token!!! Properly read the README before continuing >:(');
-	process.exit(-1);
-}
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(token.get(), {polling: true});
 
 // Listen for any kind of message. There are different kinds of
 // messages.
@@ -21,12 +17,19 @@ bot.on('message', async (msg) => {
 	const chatMessage = msg.text.trim().toLowerCase();
 	const chatId = msg.chat.id;
 	if (chatMessage.startsWith('ola') || chatMessage.startsWith('oi')) {
-		bot.sendMessage(chatId, 'Olá! Como vai o seu dia?');
-	} else if (jokempo.main(bot, chatId, chatMessage)) {
-		return;
-	} else if (chatMessage === '/help'){
-		help.commands(bot, chatId);
-	} else {
+		bot.sendMessage(chatId, 'Oi Turupom?');
+	}
+	else if (chatMessage.startsWith('tchau') || chatMessage.startsWith('adeus')){
+		bot.sendMessage(chatId, 'tchau, se cuida');
+	}
+	else if (chatMessage.startsWith('cobra') || chatMessage.startsWith('falsa')){
+		bot.sendMessage(chatId, 'Só não sambo na sua cara porque não piso em falso');
+	}
+	else if (help.main(bot, chatId, chatMessage)) return;	
+	else if (jokempo.main(bot, chatId, chatMessage)) return;
+	else if (escolher.main(bot, chatId, chatMessage)) return;
+	else if (escolhercomida.main(bot, chatId, chatMessage)) return;
+	else {
 		randomPhrases.writeRandomPhrase(bot, chatId);
 	}
 });
