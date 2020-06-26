@@ -6,7 +6,7 @@ let isChoosing = false;
 * @returns { int } the random int
 */
 function randomPositiveInt(max) {
-	return Math.floor(max * Math.random());
+	return Math.floor((max) * Math.random() + 1);
 }   
 
 /**
@@ -32,7 +32,7 @@ function main(bot, chatId, chatMessage){
     if (chatMessage === "/escolher"){
         bot.sendMessage(chatId, 
             'Vou te ajudar a fazer a sua escolha! \n' +
-            'Diga entre quantas opções tem que escolher e numere elas:');
+            'Diga entre quantas opções tem que escolher e numere elas mentalmente:');
         isChoosing = true;
         return true;
     } else if (isChoosing){

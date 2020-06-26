@@ -33,23 +33,23 @@ function randomPositiveInt(max) {
 }   
 
 /**
-* Chooses one of the options and writes it in the chat
+* Chooses one of the food options and writes it in the chat
 * @argument { import('node-telegram-bot-api') } bot
 * @argument { number } chatId
 * @argument { number } optionsQty
 */
 async function chooseFood (bot, chatId, optionsQty){
     bot.sendMessage(chatId, 'Vou te ajudar a escolher um tipo de comida!');
-    await sleep(500)
+    await sleep(1000);
     bot.sendMessage(chatId, 'Hoje você vai pedir...');
-    await sleep(2000)
+    await sleep(2000);
     bot.sendMessage(chatId, foods[randomPositiveInt(foods.length)]);
 }
 
 
 /**
-* If the user calls the command '/escolhercomida' it asks for a number of choices
-* and checks if the number is valid.
+* If the user calls the command '/escolhercomida' it goes to the 
+* function chooseFood, if not then it returns false.
 * @argument { import('node-telegram-bot-api') } bot
 * @argument { number } chatId
 * @argument { string } chatMessage

@@ -1,14 +1,10 @@
 const helpMessage = (
-        "Estou aqui para resolver todos os problemas do seu home office! \n" +
+        "Estou aqui para resolver alguns problemas do seu home office! \n" +
         "Me diga o que precisa: \n\n" +
         "/escolher - se precisar de ajuda para fazer alguma escolha \n" +
         "/escolhercomida - não tem ideia do que pedir no ifood? \n" +
-        "/bomdia - acorde bem acompanhado :) \n" +
-        "/boanoite - lembre-se de dormir! \n" +
-        "/alimentarpet - lembrete para alimentar seu pet \n" +      
-        "/listadecompras - vamos fazer compras! Com máscara e álcool... \n" +
-        "/encontrarreceita - encontre uma receita com um ingrediente inicial \n" +
-        "/minigame - um quiz simples sobre limpeza doméstica \n" +
+        //"/alimentarpet - lembrete para alimentar seu pet \n" +     
+        "/miniquiz - um quiz simples sobre limpeza doméstica \n" +
         "/jokempo - vamos jogar jokempo! \n"
     );
 
